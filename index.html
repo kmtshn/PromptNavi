@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIプロンプト生成ツール | 単語を入力するだけで最適なプロンプトを作成</title>
+    <meta name="description" content="IT用語を入力するだけで、生成AIに最適なプロンプトを自動生成。初心者でも簡単に使えるプロンプト生成ツール。">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- ヘッダー -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="title">
+                    <span class="title-icon">🎯</span>
+                    AIプロンプト生成ツール
+                </h1>
+                <p class="subtitle">調べたい単語を入力するだけで、AIに最適なプロンプトを自動生成</p>
+            </div>
+        </header>
+
+        <!-- 使い方ガイド -->
+        <section class="guide-section">
+            <h2 class="section-title">📌 使い方（かんたん3ステップ）</h2>
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">🔍</div>
+                    <div class="step-text">単語を入力</div>
+                </div>
+                <div class="step-arrow">→</div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">📊</div>
+                    <div class="step-text">形式を選択</div>
+                </div>
+                <div class="step-arrow">→</div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">📋</div>
+                    <div class="step-text">コピーして使う</div>
+                </div>
+            </div>
+        </section>
+
+        <main class="main-content">
+            <!-- STEP 1: 単語入力 -->
+            <section class="input-section card">
+                <h2 class="card-title">
+                    <span class="step-badge">STEP 1</span>
+                    調べたい単語を入力
+                </h2>
+                <div class="input-wrapper">
+                    <input 
+                        type="text" 
+                        id="keyword-input" 
+                        class="keyword-input" 
+                        placeholder="例: API、クラウド、データベース、機械学習..."
+                        maxlength="50"
+                        autocomplete="off"
+                    >
+                    <span class="input-hint">IT用語や技術用語を入力してください</span>
+                </div>
+            </section>
+
+            <!-- STEP 2: 形式選択 -->
+            <section class="format-section card">
+                <h2 class="card-title">
+                    <span class="step-badge">STEP 2</span>
+                    説明形式を選択
+                </h2>
+                <div class="format-grid">
+                    <!-- インタラクティブ表示 -->
+                    <label class="format-option" data-format="interactive">
+                        <input type="radio" name="format" value="interactive" checked>
+                        <div class="format-card">
+                            <div class="format-icon">🖱️</div>
+                            <div class="format-name">インタラクティブ表示</div>
+                            <div class="format-description">
+                                クリックやホバーで詳細が表示される<br>
+                                動的なWebページを生成
+                            </div>
+                            <div class="format-badge recommended">おすすめ</div>
+                        </div>
+                    </label>
+
+                    <!-- 比較表形式 -->
+                    <label class="format-option" data-format="comparison">
+                        <input type="radio" name="format" value="comparison">
+                        <div class="format-card">
+                            <div class="format-icon">📊</div>
+                            <div class="format-name">比較表形式</div>
+                            <div class="format-description">
+                                類似する概念と比較しながら<br>
+                                違いをわかりやすく整理
+                            </div>
+                        </div>
+                    </label>
+
+                    <!-- 図解形式 -->
+                    <label class="format-option" data-format="diagram">
+                        <input type="radio" name="format" value="diagram">
+                        <div class="format-card">
+                            <div class="format-icon">📐</div>
+                            <div class="format-name">図解形式</div>
+                            <div class="format-description">
+                                図やイラストを使って<br>
+                                視覚的にわかりやすく解説
+                            </div>
+                        </div>
+                    </label>
+
+                    <!-- アニメーション付き解説 -->
+                    <label class="format-option" data-format="animation">
+                        <input type="radio" name="format" value="animation">
+                        <div class="format-card">
+                            <div class="format-icon">🎬</div>
+                            <div class="format-name">アニメーション解説</div>
+                            <div class="format-description">
+                                動きのあるアニメーションで<br>
+                                仕組みや流れを直感的に理解
+                            </div>
+                        </div>
+                    </label>
+                </div>
+            </section>
+
+            <!-- 生成ボタン -->
+            <div class="generate-button-wrapper">
+                <button id="generate-btn" class="generate-button" disabled>
+                    <span class="button-icon">✨</span>
+                    <span class="button-text">プロンプトを生成する</span>
+                </button>
+                <p class="generate-hint" id="generate-hint">まず単語を入力してください</p>
+            </div>
+
+            <!-- STEP 3: 結果表示 -->
+            <section class="result-section card" id="result-section" style="display: none;">
+                <h2 class="card-title">
+                    <span class="step-badge success">STEP 3</span>
+                    生成されたプロンプト
+                </h2>
+                <div class="result-wrapper">
+                    <div class="result-box" id="result-box">
+                        <pre id="result-text"></pre>
+                    </div>
+                    <div class="result-actions">
+                        <button id="copy-btn" class="copy-button">
+                            <span class="copy-icon">📋</span>
+                            <span class="copy-text">クリップボードにコピー</span>
+                        </button>
+                        <span class="copy-feedback" id="copy-feedback">コピーしました！</span>
+                    </div>
+                </div>
+
+                <!-- 次のステップ案内 -->
+                <div class="next-step-guide">
+                    <h3 class="next-step-title">💡 次のステップ</h3>
+                    <div class="next-step-content">
+                        <ol class="next-step-list">
+                            <li>上の「クリップボードにコピー」ボタンをクリック</li>
+                            <li>普段お使いのAI（<strong>Gemini</strong>、<strong>ChatGPT</strong>、<strong>Claude</strong> など）を開く</li>
+                            <li>コピーしたプロンプトを貼り付けて送信</li>
+                            <li>AIが <strong>Webページ形式のインフォグラフィック</strong> を生成します！</li>
+                        </ol>
+                        <div class="ai-links">
+                            <span class="ai-links-label">AIを開く:</span>
+                            <a href="https://gemini.google.com/" target="_blank" rel="noopener" class="ai-link gemini">Gemini</a>
+                            <a href="https://chat.openai.com/" target="_blank" rel="noopener" class="ai-link chatgpt">ChatGPT</a>
+                            <a href="https://claude.ai/" target="_blank" rel="noopener" class="ai-link claude">Claude</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- フッター -->
+        <footer class="footer">
+            <p class="footer-text">
+                このツールは社員のAI活用を支援するために作成されました。<br>
+                生成されたプロンプトは自由にカスタマイズしてご利用ください。
+            </p>
+            <p class="footer-version">v1.0.0</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
